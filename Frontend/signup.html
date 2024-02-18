@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Expense-tracker SignUp</title>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js"
+      integrity="sha512-NQfB/bDaB8kaSXF8E77JjhHG5PM6XVRxvHzkZiwl3ddWCEPBa23T76MuWSwAJdMGJnmQqM0VeY9kFszsrBEFrQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <form action="#" onsubmit="saveUser(event)">
+      <label for="name">Enter your name: </label>
+      <input type="text" name="name" id="name" />
+      <label for="mail">Enter your email: </label>
+      <input type="email" name="mail" id="mail" />
+      <label for="pw">Enter your password: </label>
+      <input type="password" name="pw" id="pw" />
+      <button type="submit">Sign-up</button>
+    </form>
+    <a href="login.html">Existing User-login</a>
+    <ul id="errors"></ul>
+    <script>
+      let data;
+      const errors = document.getElementById('errors');
+      async function saveUser(e) {
+        e.preventDefault();
+        errors.textContent = '';
+        const name = e.target.name.value;
+        const mail = e.target.mail.value;
+        const password = e.target.pw.value;
+        data = {
+          name: name,
+          mail: mail,
+          password: password,
+        };
+        try {
+          const dataPost = await axios.post(
+            'http://localhost:3000/user/signup',
+            data
+          );
+        } catch (error) {
+          const li = document.createElement('li');
+          li.innerHTML = ` Error code ${error.response.status}: ${error.response.data.error}`;
+          errors.appendChild(li);
+        }
+      }
+    </script>
+  </body>
+</html>
